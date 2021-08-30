@@ -2,32 +2,43 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
 
-  .contentContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    flex-direction: column;
+  height: calc(100vh - 5rem);
+  width: 100vw;
 
-    .fields {
-      width: 60%;
+  section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .content {
+      padding: 1rem;
+      height: 90%;
+      width: 80%;
+      border: 2px solid var(--secondary);
+      border-radius: 5px;
     }
 
-    .buttons {
+    .metricView {
       display: flex;
-      flex-direction: row;
-      width: 60%;
+      justify-content: space-around;
       align-items: center;
-      justify-content: space-between;
-      margin-top: 20px;
+      width: 100%;
     }
-  }
 
-  .imageContainer {
-    background-color: var(--primary);
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+    .titleHeader{
+        display: flex;
+        margin: 1rem 0;
+        align-items: center;
+        justify-content: center;
+        
+        h1{
+            font-size: xx-large;
+        }
+    }
+
+    .buttonView{
+      position: absolute;
+      margin-left: 33%;
+    }
   }
 }

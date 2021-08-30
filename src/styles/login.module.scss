@@ -1,0 +1,33 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .contentContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    flex-direction: column;
+
+    .fields {
+      width: 60%;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      width: 60%;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+  }
+
+  .imageContainer {
+    background-color: var(--primary);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

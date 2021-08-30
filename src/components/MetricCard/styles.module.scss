@@ -1,0 +1,39 @@
+.container {
+  display: block;
+  background-color: var(--secondary);
+  color: var(--white);
+  width: 25%;
+  padding-bottom: 25%;
+  position: relative;
+
+  .content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+  }
+
+  .titleHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .titleIcon {
+      color: var(--primary);
+      font-size: xx-large;
+    }
+    p {
+      font-size: larger;
+      margin-left: 0.5rem;
+    }
+  }
+  .valueView {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+  }
+  h1 {
+    font-size: 4rem;
+  }
+}

@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Image from "next/image";
-import styles from "../styles/home.module.scss";
+import styles from "../styles/login.module.scss";
 import homeForm from "../../public/images/homeForm.svg";
 import Button from "../components/Button";
 import Input from "../components/Input";
 
-const Home: NextPage = () => {
+const Login: NextPage = () => {
   const handleLogin = () => {
     console.log("entrou");
   };
@@ -30,4 +30,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Login;

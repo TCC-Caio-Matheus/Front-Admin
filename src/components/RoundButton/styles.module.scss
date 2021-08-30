@@ -1,0 +1,17 @@
+.roundButton {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--primary);
+  color: var(--secondary);
+  transition: color;
+
+  .icon {
+    font-size: xx-large;
+  }
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+}

@@ -1,0 +1,12 @@
+.headerView {
+  height: 5rem;
+  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .title {
+      font-size: large;
+      font-weight: bold;
+  }
+}
