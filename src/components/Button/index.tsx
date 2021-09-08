@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 interface Props {
-    outline:boolean,
+    outline?:boolean,
     text:string,
     onClick: () => void,
 }

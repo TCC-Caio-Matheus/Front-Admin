@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .button {
+    height: 108px;
+    width: 108px;
+    border: 1px solid var(--secondary);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .noIcon {
+      font-size: xx-large;
+      color: var(--danger);
+    }
+    .yesIcon {
+      font-size: xx-large;
+      color: var(--primary);
+    }
+    .yesNoIcon {
+      font-size: xx-large;
+      color: var(--secondary);
+    }
+  }
+
+  input {
+    margin-top: 5px;
+    width: 108px;
+    margin-bottom: 50px;
+    height: 2rem;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+  }
+}

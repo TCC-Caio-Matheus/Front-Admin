@@ -1,0 +1,42 @@
+.container {
+  z-index: 100;
+  position: absolute;
+  height: calc(100vh - 5rem);
+  width: 100vw;
+  background-color: rgba($color: #000000, $alpha: 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .content {
+    overflow: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+
+      /* Hide scrollbar for IE, Edge and Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+    background-color: var(--white);
+    height: 70vh;
+    width: 35vw;
+    border: 1px solid var(--secondary);
+    border-radius: 10px;
+    .insideContent {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .buttonView {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+
+  h2{
+      margin: 10px 0;
+  }
+}
