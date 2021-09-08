@@ -4,6 +4,7 @@ import Input from "../Input";
 import QuestionType from "../QuestionType";
 import styles from "./styles.module.scss";
 import YesNoAnswer from "../YesNoAnwser";
+import MultiAnwser from "../MultiAnwser";
 
 interface AnwserModal {
   yes: number;
@@ -29,7 +30,11 @@ export default function QuestionModal() {
   const awnserBasedOnType = () => {
     switch (quizType) {
       case "multi":
-        return <h1>Teste</h1>;
+        return (
+          <>
+            <MultiAnwser />
+          </>
+        );
         break;
       case "yes":
         return (
