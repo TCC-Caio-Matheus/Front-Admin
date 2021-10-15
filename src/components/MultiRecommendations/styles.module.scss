@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: flex-end;
+  button {
+    margin: 1rem 0;
+  }
+  .anwsersView {
+    width: 100%;
+  }
+}
+.gradeInput {
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  padding: 0.5rem;
+}
+
+.sliderView {
+  width: 100%;
+}

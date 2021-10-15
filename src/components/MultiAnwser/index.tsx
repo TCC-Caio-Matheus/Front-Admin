@@ -12,7 +12,8 @@ interface Anwser {
   grade: number;
 }
 
-export default function MultiAnwser() {
+export default function MultiAnwser({getValues}:Props) {
+
   const [anwsers, setAnwsers] = useState<Anwser[]>([{ anwser: "", grade: 0 }]);
   const handleInput = (value: string, index: number, field: string) => {
     let temp = anwsers;
@@ -30,6 +31,9 @@ export default function MultiAnwser() {
       setAnwsers([...anwsers, { anwser: "", grade: 0 }]);
     }
   };
+
+
+
   return (
     <div className={styles.container}>
       {anwsers.map((anwser, index) => {
@@ -46,6 +50,7 @@ export default function MultiAnwser() {
               className={styles.gradeInput}
               onChange={(e) => {
                 handleInput(e.target.value, index, "grade");
+                getValues(anwsers)
               }}
             />
           </div>

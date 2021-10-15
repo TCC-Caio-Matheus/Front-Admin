@@ -30,7 +30,7 @@ export default function YesNoAnswer({ handleResponse }: Props) {
           <MdThumbDown className={styles.noIcon} />
           <span>Não</span>
         </div>
-        <input
+        <input  
           onChange={(e) => {
             console.log("entrou aqui", e.target.value);
             setAnwser({
