@@ -14,14 +14,14 @@ const Quiz: NextPage = () => {
   const [questions, setQuestions] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const handleModal = (value:boolean) => {
+    setIsModalOpen(value);
   };
 
   return (
     <>
       <Header title="Criar questionário" />
-      <QuestionModal />
+      {isModalOpen ? <QuestionModal closeModal={(value) => handleModal(value)} /> : ''}
       <div className={styles.container}>
         <div className={styles.titleHeader}>
           <input
@@ -35,7 +35,7 @@ const Quiz: NextPage = () => {
         </div>
         <hr />
         <div className={styles.buttonView}>
-          <Button text="Nova pergunta" onClick={openModal} />
+          <Button text="Nova pergunta" onClick={() => {handleModal(true)}} />
         </div>
 
         {questions ? (
@@ -43,7 +43,7 @@ const Quiz: NextPage = () => {
         ) : (
           <div className={styles.noData}>
             <span>Formuario sem perguntas</span>
-            <Image src={empty} />
+            <Image alt='Empty box' src={empty} />
           </div>
         )}
       </div>

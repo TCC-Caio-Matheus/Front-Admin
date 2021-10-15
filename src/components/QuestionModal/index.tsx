@@ -5,6 +5,12 @@ import QuestionType from "../QuestionType";
 import styles from "./styles.module.scss";
 import YesNoAnswer from "../YesNoAnwser";
 import MultiAnwser from "../MultiAnwser";
+import { Question, Recommendation } from "../../intefaces";
+import MultiRecommendations from "../MultiRecommendations";
+
+interface Props {
+  closeModal: (close: boolean) => void;
+}
 
 interface AnwserModal {
   yes: number;
@@ -12,27 +18,35 @@ interface AnwserModal {
   yesNo: number;
 }
 
-export default function QuestionModal() {
-  const [quizType, setQuizType] = useState("");
+export default function QuestionModal({ closeModal }: Props) {
+  const [question, setQuestion] = useState<Question | undefined>(undefined);
+  const [recommendations, setRecommendation] = useState<
+    Recommendation | undefined
+  >(undefined);
+  const [page, setPage] = useState<number>(0);
 
   const handleResponse = (answer: AnwserModal) => {
     console.log(answer);
   };
 
-  const handleInput = () => {
-    console.log("input");
+  const createQuestion = () => {
+    setPage(1);
   };
 
   const handleSelect = (type: string) => {
-    setQuizType(type);
+    setQuestion({ ...question, type } as Question);
   };
 
   const awnserBasedOnType = () => {
-    switch (quizType) {
+    switch (question?.type) {
       case "multi":
         return (
           <>
-            <MultiAnwser />
+            <MultiAnwser
+              getValues={(values) =>
+                setQuestion({ ...question, awnsers: values })
+              }
+            />
           </>
         );
         break;
@@ -45,26 +59,60 @@ export default function QuestionModal() {
         );
         break;
       case "slider":
-        return <h1>Teste</h1>;
+        return;
         break;
+      default:
+        return <h2>Selecione o tipo de pergunta</h2>;
     }
   };
 
   return (
     <div className={styles.container}>
-      <div className={styles.content}>
-        <div className={styles.insideContent}>
-          <Input text="Titulo da pergunta" onChange={handleInput} />
-          <Input text="Nota pergunta" type="number" onChange={handleInput} />
-          <QuestionType onChange={handleSelect} />
-          {awnserBasedOnType()}
+      {page == 0 ? (
+        <div className={styles.content}>
+          <div className={styles.insideContent}>
+            <Input
+              text="Titulo da pergunta"
+              onChange={(value) =>
+                setQuestion({ ...question, title: value } as Question)
+              }
+            />
+            <Input
+              text="Nota pergunta"
+              type="number"
+              onChange={(value) =>
+                setQuestion({ ...question, grade: parseInt(value) } as Question)
+              }
+            />
+            <QuestionType onChange={handleSelect} />
+            {awnserBasedOnType()}
 
-          <div className={styles.buttonView}>
-            <Button text="Criar pergunta" onClick={handleInput} />
-            <Button text="Cancelar" outline={true} onClick={handleInput} />
+            <div className={styles.buttonView}>
+              <Button text="Criar Recomendações" onClick={createQuestion} />
+              <Button
+                text="Cancelar"
+                outline={true}
+                onClick={() => closeModal(false)}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className={styles.content}>
+          <div className={styles.insideContent}>
+            <MultiRecommendations getValues={(values) => console.log(values)} />
+
+            <div className={styles.buttonView}>
+              <Button text="Criar pergunta" onClick={createQuestion} />
+              <Button
+                text="Cancelar"
+                outline={true}
+                onClick={() => closeModal(false)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
