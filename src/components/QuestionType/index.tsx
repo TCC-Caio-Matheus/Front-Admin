@@ -16,12 +16,13 @@ export default function QuestionInput({ onChange }: Props) {
         onChange={(e) => {
           handleSelect(e.target.value);
         }}
+        defaultValue='default'
       >
-        <option value="" disabled selected>
+        <option value="default" disabled >
           Escolha tipo de pergunta
         </option>
         <option value="multi">Multipla escolha</option>
-        <option value="yes">Sim ou Não</option>
+        <option value="yesOrNo">Sim ou Não</option>
         <option value="slider">Slider</option>
       </select>
     </div>

@@ -6,22 +6,36 @@ import Button from "../components/Button";
 import Header from "../components/Header";
 import styles from "../styles/quiz.module.scss";
 import empty from "../../public/images/empty.svg";
-import Modal from "react-modal";
 import QuestionModal from "../components/QuestionModal";
+import { Question } from "../intefaces";
+import QuestionCard from "../components/QuestionCard";
 
 const Quiz: NextPage = () => {
   const [title, setTitle] = useState<string>("");
-  const [questions, setQuestions] = useState<string>("");
+  const [questions, setQuestions] = useState<Array<Question> | undefined>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const handleModal = (value:boolean) => {
+  const handleModal = (value: boolean) => {
     setIsModalOpen(value);
+  };
+
+  const createQuestion = (question: Question) => {
+    if (questions != undefined) {
+      setQuestions([...questions, question]);
+    }
   };
 
   return (
     <>
       <Header title="Criar questionário" />
-      {isModalOpen ? <QuestionModal closeModal={(value) => handleModal(value)} /> : ''}
+      {isModalOpen ? (
+        <QuestionModal
+          createQuestion={(question: Question) => createQuestion(question)}
+          closeModal={(value) => handleModal(value)}
+        />
+      ) : (
+        ""
+      )}
       <div className={styles.container}>
         <div className={styles.titleHeader}>
           <input
@@ -35,15 +49,26 @@ const Quiz: NextPage = () => {
         </div>
         <hr />
         <div className={styles.buttonView}>
-          <Button text="Nova pergunta" onClick={() => {handleModal(true)}} />
+          <Button
+            text="Nova pergunta"
+            onClick={() => {
+              handleModal(true);
+            }}
+          />
         </div>
 
-        {questions ? (
-          <div></div>
+        {questions?.length != 0 ? (
+          <div className={styles.cardsView}>
+            {questions?.map((question, index) => {
+              return (
+                <QuestionCard key={question.title} title={question.title} />
+              );
+            })}
+          </div>
         ) : (
           <div className={styles.noData}>
             <span>Formuario sem perguntas</span>
-            <Image alt='Empty box' src={empty} />
+            <Image alt="Empty box" src={empty} />
           </div>
         )}
       </div>

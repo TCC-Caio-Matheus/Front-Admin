@@ -1,8 +1,14 @@
 export interface Question {
   type: string;
   title: string;
-  grade: number;
+  score: number;
   awnsers?: any;
+  recommendations?: Array<Recommendation>;
+}
+
+export interface Awnser {
+  description: string;
+  score: number;
 }
 
 export interface Recommendation {

@@ -10,6 +10,7 @@ import MultiRecommendations from "../MultiRecommendations";
 
 interface Props {
   closeModal: (close: boolean) => void;
+  createQuestion: (question: Question) => void;
 }
 
 interface AnwserModal {
@@ -18,10 +19,10 @@ interface AnwserModal {
   yesNo: number;
 }
 
-export default function QuestionModal({ closeModal }: Props) {
+export default function QuestionModal({ closeModal, createQuestion }: Props) {
   const [question, setQuestion] = useState<Question | undefined>(undefined);
   const [recommendations, setRecommendation] = useState<
-    Recommendation | undefined
+    Array<Recommendation> | undefined
   >(undefined);
   const [page, setPage] = useState<number>(0);
 
@@ -29,12 +30,28 @@ export default function QuestionModal({ closeModal }: Props) {
     console.log(answer);
   };
 
-  const createQuestion = () => {
+  const nextPage = () => {
     setPage(1);
   };
 
   const handleSelect = (type: string) => {
     setQuestion({ ...question, type } as Question);
+  };
+
+  const handleRecommendantions = (recommendations: Array<Recommendation>) => {
+    setRecommendation(recommendations);
+  };
+
+  const handleCreateQuestion = () => {
+    let temp = question;
+    if (temp != undefined) {
+      temp.recommendations = recommendations;
+      setQuestion(temp);
+    }
+    if (question != undefined) {
+      createQuestion(question);
+      closeModal(false)
+    }
   };
 
   const awnserBasedOnType = () => {
@@ -81,14 +98,14 @@ export default function QuestionModal({ closeModal }: Props) {
               text="Nota pergunta"
               type="number"
               onChange={(value) =>
-                setQuestion({ ...question, grade: parseInt(value) } as Question)
+                setQuestion({ ...question, score: parseInt(value) } as Question)
               }
             />
             <QuestionType onChange={handleSelect} />
             {awnserBasedOnType()}
 
             <div className={styles.buttonView}>
-              <Button text="Criar Recomendações" onClick={createQuestion} />
+              <Button text="Criar Recomendações" onClick={nextPage} />
               <Button
                 text="Cancelar"
                 outline={true}
@@ -100,10 +117,12 @@ export default function QuestionModal({ closeModal }: Props) {
       ) : (
         <div className={styles.content}>
           <div className={styles.insideContent}>
-            <MultiRecommendations getValues={(values) => console.log(values)} />
+            <MultiRecommendations
+              getValues={(values) => handleRecommendantions(values)}
+            />
 
             <div className={styles.buttonView}>
-              <Button text="Criar pergunta" onClick={createQuestion} />
+              <Button text="Criar pergunta" onClick={handleCreateQuestion} />
               <Button
                 text="Cancelar"
                 outline={true}

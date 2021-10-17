@@ -9,18 +9,18 @@ interface Props {
 
 interface Anwser {
   anwser: string;
-  grade: number;
+  score: number;
 }
 
 export default function MultiAnwser({getValues}:Props) {
 
-  const [anwsers, setAnwsers] = useState<Anwser[]>([{ anwser: "", grade: 0 }]);
+  const [anwsers, setAnwsers] = useState<Anwser[]>([{ anwser: "", score: 0 }]);
   const handleInput = (value: string, index: number, field: string) => {
     let temp = anwsers;
     if (field == "anwser") {
       temp[index].anwser = value;
     } else {
-      temp[index].grade = parseInt(value);
+      temp[index].score = parseInt(value);
     }
     setAnwsers(temp);
   };
@@ -28,7 +28,7 @@ export default function MultiAnwser({getValues}:Props) {
     if (anwsers.length == 4) {
       alert("Máximo de 4 perguntas");
     } else {
-      setAnwsers([...anwsers, { anwser: "", grade: 0 }]);
+      setAnwsers([...anwsers, { anwser: "", score: 0 }]);
     }
   };
 
@@ -47,9 +47,9 @@ export default function MultiAnwser({getValues}:Props) {
             <input
               placeholder="Nota"
               type="number"
-              className={styles.gradeInput}
+              className={styles.scoreInput}
               onChange={(e) => {
-                handleInput(e.target.value, index, "grade");
+                handleInput(e.target.value, index, "score");
                 getValues(anwsers)
               }}
             />
