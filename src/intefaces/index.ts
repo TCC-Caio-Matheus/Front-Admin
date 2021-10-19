@@ -1,8 +1,14 @@
 export interface Question {
   type: string;
   title: string;
-  grade: number;
+  score: number;
   awnsers?: any;
+  recommendations?: Array<Recommendation>;
+}
+
+export interface Awnser {
+  description: string;
+  score: number;
 }
 
 export interface Recommendation {
@@ -10,3 +16,13 @@ export interface Recommendation {
   minRange: number;
   maxRange: number;
 }
+export interface UserCredentials {
+  email: string;
+  password: string;
+}
+
+export interface AuthContextType {
+  isAuthenticated: boolean;
+  signIn: (data: UserCredentials) => Promise<void>;
+}
+

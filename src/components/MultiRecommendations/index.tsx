@@ -27,6 +27,7 @@ export default function MultiRecommendations({ getValues }: Props) {
     temp[index].minRange = values[0];
     temp[index].maxRange = values[1];
     setRecommendations(temp);
+    getValues(recommendations);
   };
   const addRecomendation = () => {
     if (recommendations.length == 4) {
