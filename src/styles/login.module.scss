@@ -30,4 +30,15 @@
     align-items: center;
     justify-content: center;
   }
+
+  .errorView {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+
+    p{
+      color: red;
+    }
+  }
 }

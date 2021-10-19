@@ -11,7 +11,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject> = null;
 
 export function createApolloClient(session?: any | null) { // eslint-disable-line
   const httpLink = createHttpLink({
-    uri: process.env.NEXT_PUBLIC_API_BACKEND,
+    uri: 'http://localhost:1337/graphql',
   });
 
   const authLink = setContext(async (_, { headers }) => {

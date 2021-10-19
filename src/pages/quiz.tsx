@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
@@ -68,7 +69,7 @@ const Quiz: NextPage = () => {
         ) : (
           <div className={styles.noData}>
             <span>Formuario sem perguntas</span>
-            <Image alt="Empty box" src={empty} />
+            <img alt="Empty box" src={empty} />
           </div>
         )}
       </div>

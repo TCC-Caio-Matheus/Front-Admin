@@ -16,3 +16,13 @@ export interface Recommendation {
   minRange: number;
   maxRange: number;
 }
+export interface UserCredentials {
+  email: string;
+  password: string;
+}
+
+export interface AuthContextType {
+  isAuthenticated: boolean;
+  signIn: (data: UserCredentials) => Promise<void>;
+}
+
