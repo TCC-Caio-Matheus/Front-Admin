@@ -27,7 +27,7 @@ export default function QuestionModal({ closeModal, createQuestion }: Props) {
   const [page, setPage] = useState<number>(0);
 
   const handleResponse = (answer: AnwserModal) => {
-    console.log(answer);
+    
   };
 
   const nextPage = () => {

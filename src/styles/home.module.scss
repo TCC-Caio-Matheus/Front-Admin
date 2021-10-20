@@ -24,21 +24,25 @@
       width: 100%;
     }
 
+    .titleHeader {
+      display: flex;
+      margin: 1rem 0;
+      align-items: center;
+      justify-content: center;
 
-    .titleHeader{
-        display: flex;
-        margin: 1rem 0;
-        align-items: center;
-        justify-content: center;
-        
-        h1{
-            font-size: xx-large;
-        }
+      h1 {
+        font-size: xx-large;
+      }
     }
 
-    .buttonView{
+    .buttonView {
       position: absolute;
       margin-left: 33%;
     }
   }
+}
+
+.titleIcon {
+  color: var(--primary);
+  font-size: xx-large;
 }

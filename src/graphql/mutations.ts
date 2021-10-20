@@ -7,3 +7,15 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const UPDATE_QUIZ = gql`
+mutation UpdateQuiz($quiz:updateQuizInput) {
+  updateQuiz(input: $quiz) {
+    quiz {
+      name
+    }
+  }
+}
+`;
+
+
