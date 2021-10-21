@@ -10,7 +10,9 @@ export default function Header({ title, backButton, onClick }: Props) {
   return (
     <header className={styles.headerView}>
       {backButton ? (
-        <FiArrowLeft onClick={onClick} className={styles.icon} />
+        <button>
+          <FiArrowLeft onClick={onClick} className={styles.icon} />
+        </button>
       ) : (
         ""
       )}

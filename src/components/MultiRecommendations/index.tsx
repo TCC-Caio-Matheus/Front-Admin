@@ -2,19 +2,19 @@ import { useState } from "react";
 import Input from "../Input";
 import RoundButton from "../RoundButton";
 import styles from "./styles.module.scss";
-import { Recommendation } from "../../intefaces";
+import { Suggestion } from "../../intefaces";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 
 interface Props {
-  getValues: (values: Recommendation[]) => void;
+  getValues: (values: Suggestion[]) => void;
 }
 
 export default function MultiRecommendations({ getValues }: Props) {
-  const [recommendations, setRecommendations] = useState<Recommendation[]>([
-    { description: "", minRange: 0, maxRange: 0 },
+  const [recommendations, setRecommendations] = useState<Suggestion[]>([
+    { description: "", range_min: 0, range_max: 0 },
   ]);
   const handleInput = (value: string, index: number) => {
     let temp = recommendations;
@@ -24,8 +24,8 @@ export default function MultiRecommendations({ getValues }: Props) {
 
   const updateRangeInput = (values: Array<number>, index: number) => {
     let temp = recommendations;
-    temp[index].minRange = values[0];
-    temp[index].maxRange = values[1];
+    temp[index].range_max = values[0];
+    temp[index].range_min = values[1];
     setRecommendations(temp);
     getValues(recommendations);
   };
@@ -35,7 +35,7 @@ export default function MultiRecommendations({ getValues }: Props) {
     } else {
       setRecommendations([
         ...recommendations,
-        { description: "", minRange: 0, maxRange: 0 },
+        { description: "", range_min: 0, range_max: 0 },
       ]);
     }
   };

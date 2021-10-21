@@ -1,28 +1,33 @@
-.card{
-    background-color: var(--secondary);
-    width: 90%;
-    height: 70px;
+.card {
+  background-color: var(--secondary);
+  width: 90%;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  margin: 20px 0;
+  padding: 10px;
+  border: none;
+  transition: color;
+
+  &:hover {
+    filter: brightness(0.8);
+  }
+
+  span {
+    color: var(--white);
+    font-size: 1.5rem;
+  }
+
+  .deleteIcon {
+    color: var(--primary);
+    font-size: x-large;
+  }
+
+  .iconsView {
     display: flex;
-    flex-direction: column;
-    border-radius: 5px;
-    margin: 20px 0;
-    padding: 10px;
-
-    span{
-        color: var(--white);
-        font-size: 1.5rem;
-    }
-
-    .deleteIcon{
-        color: var(--primary);
-        font-size: x-large;
-    }
-
-    .iconsView{
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: flex-end;
-
-    }
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+  }
 }

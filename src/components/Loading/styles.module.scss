@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 200;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.spin {
+  background: #00000020;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 5px solid #00000000;
+  border-top: 5px solid var(--primary);
+  animation: loading 1s ease-in-out infinite;
+  @keyframes loading {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

@@ -1,9 +1,10 @@
 export interface Question {
   type: string;
+  id?: string;
   title: string;
   score?: number;
-  awnsers?: any;
-  recommendations?: Array<Recommendation>;
+  question_options?: Array<QuestionOption>;
+  suggestions?: Array<Suggestion>;
 }
 
 export interface Awnser {
@@ -11,10 +12,12 @@ export interface Awnser {
   score: number;
 }
 
-export interface Recommendation {
+export interface Suggestion {
+  id?: string;
   description: string;
-  minRange: number;
-  maxRange: number;
+  range_min: number;
+  range_max: number;
+  question?: string;
 }
 export interface UserCredentials {
   email: string;
@@ -27,8 +30,15 @@ export interface AuthContextType {
 }
 
 export interface Quiz {
-  id:string,
-  name:string,
-  score:number,
-  questions:Array<any>
-} 
+  id: string;
+  name: string;
+  score: number;
+  questions: Array<any>;
+}
+
+export interface QuestionOption {
+  id?: string;
+  description: string;
+  score: number;
+  question?: string;
+}

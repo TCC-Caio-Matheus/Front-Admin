@@ -10,8 +10,18 @@
     font-weight: bold;
   }
 
-  .icon {
+  button {
     position: absolute;
+    left: 20px;
+    background: none;
+    border: none;
+    transition: 1s;
+
+    &:hover {
+      opacity: (0.2);
+    }
+  }
+  .icon {
     font-size: xx-large;
   }
 }
