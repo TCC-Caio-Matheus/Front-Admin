@@ -51,3 +51,18 @@ export const GET_QUIZ = gql`
     }
   }
 `;
+
+export const GET_QUESTION = gql`
+  query getQuestion($id: ID!) {
+    question(id: $id) {
+      id
+      title
+      type
+      question_options {
+        id
+        description
+        score
+      }
+    }
+  }
+`;

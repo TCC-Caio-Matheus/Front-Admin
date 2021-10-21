@@ -27,7 +27,6 @@ const Home: NextPage = () => {
   const [quizzes, setQuizzes] = useState<Array<Quiz> | null>(null);
   const router = useRouter();
 
- 
   const getTotalUsers = async () => {
     try {
       const response = await client.query({
@@ -105,19 +104,21 @@ const Home: NextPage = () => {
             <div className={styles.titleHeader}>
               <h1>Questionários</h1>
               <div className={styles.buttonView}>
-                <RoundButton onClick={() => {
-                  router.push('/quiz/create')
-                }} />
+                <RoundButton
+                  onClick={() => {
+                    router.push("/quiz/create");
+                  }}
+                />
               </div>
             </div>
             {quizzes?.map((quiz) => {
               return (
-                <Link key={quiz.id} href={`quiz/${quiz.id}`}>
-                  <QuizButton
-                    onClick={() => {}}
-                    title={quiz.name}
-                  />
-                </Link>
+                <>
+                  <Link key={quiz.id} href={`quiz/${quiz.id}`}>
+                    <QuizButton onClick={() => {}} title={quiz.name} />
+                  </Link>
+                  <div className={styles.spacer}> </div>
+                </>
               );
             })}
           </div>

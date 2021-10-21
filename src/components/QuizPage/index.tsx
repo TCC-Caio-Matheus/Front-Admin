@@ -4,15 +4,16 @@ import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import Button from "../Button";
 import Header from "../Header";
+import Loading from "../Loading";
 import styles from "./styles.module.scss";
-//import empty from "../../public/images/empty.svg";
+import empty from "../../../public/images/empty.svg";
 import QuestionModal from "../QuestionModal";
 import { Question, Quiz } from "../../intefaces";
 import QuestionCard from "../QuestionCard";
 import router, { useRouter } from "next/router";
 import { useApolloClient } from "@apollo/client";
 import { GET_QUIZ } from "../../graphql/queries";
-import { UPDATE_QUIZ } from "../../graphql/mutations";
+import { CREATE_QUIZ, UPDATE_QUIZ } from "../../graphql/mutations";
 
 interface Props {
   isEditing?: boolean;
@@ -25,6 +26,7 @@ const QuizPage = ({ isEditing, id }: Props) => {
   const [questions, setQuestions] = useState<Array<Question> | null>([]);
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [editQuestion, setEditQuestion] = useState<string | null>(null);
 
   useEffect(() => {
     if (isEditing) {
@@ -53,9 +55,33 @@ const QuizPage = ({ isEditing, id }: Props) => {
     setIsModalOpen(value);
   };
 
+  const handleEditModal = (value: boolean) => {
+    setIsModalOpen(value);
+  };
+
+  const createQuizInputObj = () => {
+    var ids: (string | undefined)[] = [];
+    questions?.forEach((question) => {
+      ids.push(question.id)
+    })
+
+    return {
+      data: {
+        name: quiz?.name,
+        score: 100,
+        questions:ids,
+      },
+    };
+  };
+
+  const backPage = () => {
+    router.back();
+  };
   const handleSave = () => {
     if (isEditing) {
       editQuiz();
+    } else {
+      createQuiz();
     }
   };
 
@@ -75,7 +101,22 @@ const QuizPage = ({ isEditing, id }: Props) => {
           quiz: updateQuizInput,
         },
       });
-      router.push('/home')
+      router.push("/home");
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const createQuiz = async () => {
+    const createQuizInput = createQuizInputObj();
+    try {
+      const response = await client.mutate({
+        mutation: CREATE_QUIZ,
+        variables: {
+          quiz: createQuizInput,
+        },
+      });
+      router.push("/home");
     } catch (error) {
       alert(error);
     }
@@ -90,6 +131,8 @@ const QuizPage = ({ isEditing, id }: Props) => {
   return (
     <>
       <Header
+        backButton={true}
+        onClick={backPage}
         title={!isEditing ? "Criar Questionário" : "Editar Questionário"}
       />
       {isModalOpen ? (
@@ -100,6 +143,17 @@ const QuizPage = ({ isEditing, id }: Props) => {
       ) : (
         ""
       )}
+
+      {editQuestion ? (
+        <QuestionModal
+          createQuestion={(question: Question) => createQuestion(question)}
+          closeModal={(value) => handleModal(value)}
+          editQuestion={editQuestion}
+        />
+      ) : (
+        ""
+      )}
+
       <div className={styles.container}>
         <div className={styles.titleHeader}>
           <input
@@ -137,13 +191,25 @@ const QuizPage = ({ isEditing, id }: Props) => {
         {questions?.length != 0 ? (
           <div className={styles.cardsView}>
             {questions?.map((question, index) => {
-              return <QuestionCard key={index} title={question.title} />;
+              return (
+                <>
+                  <QuestionCard
+                    onClick={() => {
+                      if (question.id) {
+                        setEditQuestion(question.id);
+                      }
+                    }}
+                    key={question.id}
+                    title={question.title}
+                  />
+                </>
+              );
             })}
           </div>
         ) : (
           <div className={styles.noData}>
             <span>Formuario sem perguntas</span>
-            <img alt="Empty box" src="images/empty.svg" />
+            <img alt="Empty box" src="../../../public/images/empty.svg" />
           </div>
         )}
       </div>

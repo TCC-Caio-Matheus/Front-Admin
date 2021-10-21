@@ -2,9 +2,10 @@ import styles from "./styles.module.scss";
 
 interface Props {
   onChange: (option: string) => void;
+  value?:string,
 }
 
-export default function QuestionInput({ onChange }: Props) {
+export default function QuestionInput({ onChange,value }: Props) {
   const handleSelect = (option: string) => {
     console.log(option);
     onChange(option);
@@ -13,6 +14,7 @@ export default function QuestionInput({ onChange }: Props) {
     <div className={styles.container}>
       <span>Tipo de Pergunta ? </span>
       <select
+        value={value}
         onChange={(e) => {
           handleSelect(e.target.value);
         }}
@@ -21,8 +23,8 @@ export default function QuestionInput({ onChange }: Props) {
         <option value="default" disabled >
           Escolha tipo de pergunta
         </option>
-        <option value="multi">Multipla escolha</option>
-        <option value="yesOrNo">Sim ou Não</option>
+        <option value="MULTIPLE_CHOICE">Multipla escolha</option>
+        <option value="SINGLE_CHOICE">Sim ou Não</option>
         <option value="slider">Slider</option>
       </select>
     </div>

@@ -9,13 +9,51 @@ export const LOGIN = gql`
 `;
 
 export const UPDATE_QUIZ = gql`
-mutation UpdateQuiz($quiz:updateQuizInput) {
-  updateQuiz(input: $quiz) {
-    quiz {
-      name
+  mutation UpdateQuiz($quiz: updateQuizInput) {
+    updateQuiz(input: $quiz) {
+      quiz {
+        name
+      }
     }
   }
-}
 `;
 
+export const CREATE_QUIZ = gql`
+  mutation CreateQuiz($quiz: createQuizInput) {
+    createQuiz(input: $quiz) {
+      quiz {
+        id
+      }
+    }
+  }
+`;
 
+export const CREATE_QUESTION = gql`
+  mutation createQuestion($question: createQuestionInput) {
+    createQuestion(input: $question) {
+      question {
+        id
+      }
+    }
+  }
+`;
+
+export const CREATE_QUESTION_OPTION = gql`
+  mutation CreateQuestionOption($questionOption: createQuestionOptionInput) {
+    createQuestionOption(input: $questionOption) {
+      questionOption {
+        id
+      }
+    }
+  }
+`;
+
+export const CREATE_SUGGESTION = gql`
+  mutation createSuggestion($suggestion: createSuggestionInput) {
+    createSuggestion(input: $suggestion) {
+      suggestion {
+        id
+      }
+    }
+  }
+`;
