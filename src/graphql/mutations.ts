@@ -57,3 +57,14 @@ export const CREATE_SUGGESTION = gql`
     }
   }
 `;
+
+export const DELETE_QUESTION = gql`
+mutation deleteQuestion($deleteQuestion:deleteQuestionInput) {
+  deleteQuestion(input: $deleteQuestion) {
+    question {
+      id
+    }
+  }
+}
+
+`;

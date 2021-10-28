@@ -21,13 +21,6 @@ interface Props {
   createQuestion: (question: Question) => void;
   editQuestion?: string;
 }
-
-interface AnwserModal {
-  yes: number;
-  no: number;
-  yesNo: number;
-}
-
 export default function QuestionModal({
   closeModal,
   createQuestion,
@@ -58,9 +51,6 @@ export default function QuestionModal({
       })();
     }
   }, []);
-
-  const handleResponse = (answer: AnwserModal) => {};
-
   const nextPage = () => {
     setPage(1);
   };
@@ -187,14 +177,13 @@ export default function QuestionModal({
         await createSuggestions(question);
         setLoading(false);
         createQuestion(question);
-        closeModal(false)
+        closeModal(false);
       } catch (error) {
         console.log(error);
         setLoading(false);
       }
     }
   };
-
 
   const awnserBasedOnType = () => {
     switch (question?.type) {
@@ -213,7 +202,19 @@ export default function QuestionModal({
         return (
           <>
             <h2>Nota das respostas</h2>
-            <YesNoAnswer handleResponse={handleResponse} />
+            {editQuestion ? (
+              <YesNoAnswer
+                getValues={(values) => {
+                  setQuestion({ ...question, question_options: values });
+                }}
+              />
+            ) : (
+              <YesNoAnswer
+                getValues={(values) => {
+                  setQuestion({ ...question, question_options: values });
+                }}
+              />
+            )}
           </>
         );
         break;

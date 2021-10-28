@@ -27,6 +27,9 @@ export interface UserCredentials {
 export interface AuthContextType {
   isAuthenticated: boolean;
   signIn: (data: UserCredentials) => Promise<void>;
+  checkToken: () => Promise<boolean>;
+ 
+  
 }
 
 export interface Quiz {
