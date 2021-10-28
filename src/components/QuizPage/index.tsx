@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import Button from "../Button";
 import Header from "../Header";
 import Loading from "../Loading";
+import DeleteQuestionModal from "../DeleteQuestionModal";
 import styles from "./styles.module.scss";
 import empty from "../../../public/images/empty.svg";
 import QuestionModal from "../QuestionModal";
@@ -13,7 +14,12 @@ import QuestionCard from "../QuestionCard";
 import router, { useRouter } from "next/router";
 import { useApolloClient } from "@apollo/client";
 import { GET_QUIZ } from "../../graphql/queries";
-import { CREATE_QUIZ, UPDATE_QUIZ } from "../../graphql/mutations";
+import {
+  CREATE_QUIZ,
+  DELETE_QUESTION,
+  UPDATE_QUIZ,
+} from "../../graphql/mutations";
+import { AuthContext } from "../../contexts/AuthContext";
 
 interface Props {
   isEditing?: boolean;
@@ -22,54 +28,121 @@ interface Props {
 
 const QuizPage = ({ isEditing, id }: Props) => {
   const client = useApolloClient();
+  const authContext = useContext(AuthContext);
   const [title, setTitle] = useState<string>("");
   const [questions, setQuestions] = useState<Array<Question> | null>([]);
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editQuestion, setEditQuestion] = useState<string | null>(null);
+  const [handleDeleteModal, setHandleDeleteModal] = useState<boolean>(false);
+  const [deleteQuestion, setDeleteQuestion] = useState<string>("");
 
   useEffect(() => {
-    if (isEditing) {
-      (async function () {
-        try {
-          const response = await client.query({
-            query: GET_QUIZ,
-            variables: {
-              id,
-            },
-          });
-          console.log(response.data.quiz);
-          setQuiz(response.data.quiz);
-          setTitle(response.data.quiz.name);
-          if (questions != null) {
-            setQuestions(response.data.quiz.questions);
+    (async function () {
+      const response = await authContext.checkToken();
+      if (response) {
+        if (isEditing) {
+          try {
+            const response = await client.query({
+              query: GET_QUIZ,
+              variables: {
+                id,
+              },
+            });
+  
+            setQuiz(response.data.quiz);
+            setTitle(response.data.quiz.name);
+            if (questions != null) {
+              setQuestions(response.data.quiz.questions);
+            }
+          } catch (error) {
+            console.log(error);
           }
-        } catch (error) {
-          console.log(error);
         }
-      })();
-    }
+      }else{
+        router.push('/')
+      }
+    
+    })();
   }, []);
 
   const handleModal = (value: boolean) => {
     setIsModalOpen(value);
   };
 
-  const handleEditModal = (value: boolean) => {
-    setIsModalOpen(value);
+  const handleDeleteQuestion = async (respose: boolean, id: string) => {
+    if (respose) {
+      const deleteQuestionInput = deleteQuestionInputObj(id);
+      console.log(deleteQuestionInput);
+      try {
+        const response = await client.mutate({
+          mutation: DELETE_QUESTION,
+          variables: {
+            deleteQuestion: deleteQuestionInput,
+          },
+        });
+
+        const temp = questions?.filter((question) => {
+          if (question.id != id) {
+            return true;
+          }
+        });
+        if (temp) {
+            setQuestions(temp);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("CANCELAR");
+    }
+    setHandleDeleteModal(false);
+  };
+
+  const openDeleteModal = (id?: string) => {
+    if (id) {
+      setDeleteQuestion(id);
+      setHandleDeleteModal(true);
+    }
+  };
+
+  const deleteQuestionInputObj = (id: string) => {
+    return {
+      where: {
+        id: id,
+      },
+    };
   };
 
   const createQuizInputObj = () => {
     var ids: (string | undefined)[] = [];
     questions?.forEach((question) => {
-      ids.push(question.id)
-    })
+      ids.push(question.id);
+    });
 
     return {
       data: {
         name: quiz?.name,
         score: 100,
-        questions:ids,
+        questions: ids,
+      },
+    };
+  };
+
+  const updateQuizInputObj = () => {
+    var ids: (string | undefined)[] = [];
+    questions?.forEach((question) => {
+      ids.push(question.id);
+    });
+
+    return {
+      data: {
+        name: quiz?.name,
+        score: 100,
+        questions: ids,
+      },
+      where: {
+        id: quiz?.id,
       },
     };
   };
@@ -86,14 +159,7 @@ const QuizPage = ({ isEditing, id }: Props) => {
   };
 
   const editQuiz = async () => {
-    const updateQuizInput = {
-      data: {
-        name: quiz?.name,
-      },
-      where: {
-        id: quiz?.id,
-      },
-    };
+    const updateQuizInput = updateQuizInputObj();
     try {
       const response = await client.mutate({
         mutation: UPDATE_QUIZ,
@@ -135,6 +201,14 @@ const QuizPage = ({ isEditing, id }: Props) => {
         onClick={backPage}
         title={!isEditing ? "Criar Questionário" : "Editar Questionário"}
       />
+      {handleDeleteModal ? (
+        <DeleteQuestionModal
+          id={deleteQuestion}
+          getResponse={(value, id) => handleDeleteQuestion(value, id)}
+        />
+      ) : (
+        ""
+      )}
       {isModalOpen ? (
         <QuestionModal
           createQuestion={(question: Question) => createQuestion(question)}
@@ -194,10 +268,8 @@ const QuizPage = ({ isEditing, id }: Props) => {
               return (
                 <>
                   <QuestionCard
-                    onClick={() => {
-                      if (question.id) {
-                        setEditQuestion(question.id);
-                      }
+                    deleteQuestion={() => {
+                      openDeleteModal(question?.id);
                     }}
                     key={question.id}
                     title={question.title}
@@ -209,7 +281,7 @@ const QuizPage = ({ isEditing, id }: Props) => {
         ) : (
           <div className={styles.noData}>
             <span>Formuario sem perguntas</span>
-            <img alt="Empty box" src="../../../public/images/empty.svg" />
+            <img alt="Empty box" src="/images/empty.svg" />
           </div>
         )}
       </div>

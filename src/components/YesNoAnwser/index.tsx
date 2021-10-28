@@ -1,27 +1,31 @@
 import styles from "./styles.module.scss";
 import { useState } from "react";
 import { MdThumbUp, MdThumbDown, MdThumbsUpDown } from "react-icons/md";
+import { QuestionOption } from "../../intefaces";
 
 interface Props {
-  handleResponse: (anwser: AnwserModal) => void;
+  getValues: (anwser: QuestionOption[]) => void;
+  
 }
 
-interface AnwserModal {
-  yes: number;
-  no: number;
-  yesNo: number;
-}
+export default function YesNoAnswer({ getValues }: Props) {
+  const [anwser, setAnwser] = useState<QuestionOption[]>([
+    {
+      description: "NO",
+      score: 0,
+    },
+    {
+      description: "DONT_KNOW",
+      score: 0,
+    },
+    {
+      description: "YES",
+      score: 0,
+    },
+  ]);
 
-export default function YesNoAnswer({ handleResponse }: Props) {
-  const [anwser, setAnwser] = useState<AnwserModal>({
-    yes: 0,
-    no: 0,
-    yesNo: 0,
-  });
-
-  const handleTeste = () => {
-    console.log(anwser);
-    handleResponse(anwser);
+  const handleAwnser = () => {
+    getValues(anwser);
   };
   return (
     <div className={styles.container}>
@@ -30,14 +34,12 @@ export default function YesNoAnswer({ handleResponse }: Props) {
           <MdThumbDown className={styles.noIcon} />
           <span>Não</span>
         </div>
-        <input  
+        <input
           onChange={(e) => {
-            console.log("entrou aqui", e.target.value);
-            setAnwser({
-              ...anwser,
-              no: parseInt(e.target.value),
-            });
-            handleTeste();
+            let temp = anwser;
+            temp[0].score = parseInt(e.target.value);
+            setAnwser(temp);
+            handleAwnser();
           }}
           placeholder="Nota"
           type="number"
@@ -50,11 +52,10 @@ export default function YesNoAnswer({ handleResponse }: Props) {
         </div>
         <input
           onChange={(e) => {
-            setAnwser({
-              ...anwser,
-              yesNo: parseInt(e.target.value),
-            });
-            handleTeste();
+            let temp = anwser;
+            temp[1].score = parseInt(e.target.value);
+            setAnwser(temp);
+            handleAwnser();
           }}
           placeholder="Nota"
           type="number"
@@ -67,11 +68,10 @@ export default function YesNoAnswer({ handleResponse }: Props) {
         </div>
         <input
           onChange={(e) => {
-            setAnwser({
-              ...anwser,
-              yes: parseInt(e.target.value),
-            });
-            handleTeste();
+            let temp = anwser;
+            temp[2].score = parseInt(e.target.value);
+            setAnwser(temp);
+            handleAwnser();
           }}
           placeholder="Nota"
           type="number"

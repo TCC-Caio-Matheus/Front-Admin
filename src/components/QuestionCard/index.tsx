@@ -3,15 +3,15 @@ import { AiFillDelete } from "react-icons/ai";
 
 interface Props {
   title: string;
-  onClick: () => void;
+  deleteQuestion: () => void;
 }
 
-export default function QuestionCard({ title, onClick }: Props) {
+export default function QuestionCard({ title, deleteQuestion }: Props) {
   return (
-    <button onClick={onClick} className={styles.card}>
+    <button className={styles.card}>
       <span>{title}</span>
       <div className={styles.iconsView}>
-        <AiFillDelete className={styles.deleteIcon} />
+        <AiFillDelete onClick={deleteQuestion} className={styles.deleteIcon} />
       </div>
     </button>
   );

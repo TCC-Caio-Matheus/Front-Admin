@@ -5,6 +5,7 @@ import {
   NormalizedCacheObject,
 } from '@apollo/client';
 import { setContext } from 'apollo-link-context';
+import { parseCookies } from 'nookies';
 import { useMemo } from 'react';
 
 let apolloClient: ApolloClient<NormalizedCacheObject> = null;
@@ -15,7 +16,10 @@ export function createApolloClient(session?: any | null) { // eslint-disable-lin
   });
 
   const authLink = setContext(async (_, { headers }) => {
-    const authorization = session?.jwt ? `Bearer ${session?.jwt}` : '';
+
+    const { jwt: token } = parseCookies();
+
+    const authorization = token ? `Bearer ${token}` : '';
     return {
       headers: {
         ...headers,

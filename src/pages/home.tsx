@@ -1,4 +1,6 @@
+/* eslint-disable @next/next/link-passhref */
 import type { NextPage } from "next";
+import React, { useContext } from "react";
 import Header from "../components/Header";
 import styles from "../styles/home.module.scss";
 import MetricCard from "../components/MetricCard";
@@ -18,9 +20,11 @@ import {
   GET_QUIZZES,
 } from "../graphql/queries";
 import { Quiz } from "../intefaces";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Home: NextPage = () => {
   const client = useApolloClient();
+  const authContext = useContext(AuthContext);
   const [totalUsers, setTotalUsers] = useState<number>(0);
   const [totalAnwsers, setTotalAnwsers] = useState<number>(0);
   const [totalStores, setTotalStores] = useState<number>(0);
@@ -64,10 +68,17 @@ const Home: NextPage = () => {
   };
 
   useEffect(() => {
-    getTotalUsers();
-    getTotalAnwsers();
-    getTotalStores();
-    getQuizzes();
+    (async function () {
+      const response = await authContext.checkToken();
+      if (response) {
+        getTotalUsers();
+        getTotalAnwsers();
+        getTotalStores();
+        getQuizzes();
+      } else {
+        router.push("/");
+      }
+    })();
   }, []);
 
   return (
@@ -111,16 +122,18 @@ const Home: NextPage = () => {
                 />
               </div>
             </div>
-            {quizzes?.map((quiz) => {
-              return (
-                <>
-                  <Link key={quiz.id} href={`quiz/${quiz.id}`}>
-                    <QuizButton onClick={() => {}} title={quiz.name} />
-                  </Link>
-                  <div className={styles.spacer}> </div>
-                </>
-              );
-            })}
+            <div className={styles.quizzesView}>
+              {quizzes?.map((quiz) => {
+                return (
+                  <React.Fragment key={quiz.id}>
+                    <Link href={`quiz/${quiz.id}`} passHref>
+                      <QuizButton onClick={() => {}} title={quiz.name} />
+                    </Link>
+                    <div className={styles.spacer}> </div>
+                  </React.Fragment>
+                );
+              })}
+            </div>
           </div>
         </section>
       </div>

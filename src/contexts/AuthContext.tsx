@@ -3,7 +3,7 @@ import { setCookie, parseCookies } from "nookies";
 import { LOGIN } from "../graphql/mutations";
 import { useApolloClient } from "@apollo/client";
 import { UserCredentials, AuthContextType } from "../intefaces";
-import Router from 'next/router'
+import Router from "next/router";
 
 interface Props {
   children: React.ReactNode;
@@ -12,16 +12,28 @@ interface Props {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }: Props) {
-  const isAuthenticated = true;
   const client = useApolloClient();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const { "admin.token": token } = parseCookies();
+    const { jwt: token } = parseCookies();
 
     if (token) {
-        // Router.push('/home')
+      setIsAuthenticated(true);
+      Router.push("/home");
     }
   }, []);
+
+  async function checkToken() {
+    const { jwt: token } = parseCookies();
+    if (!token) {
+      setIsAuthenticated(false);
+    }else{
+      setIsAuthenticated(true);
+    }
+
+    return isAuthenticated;
+  }
 
   async function signIn({ email, password }: UserCredentials) {
     const response = await client.mutate({
@@ -32,15 +44,16 @@ export function AuthProvider({ children }: Props) {
       },
     });
 
-    setCookie(undefined, "admin.token", response.data.login.jwt, {
+    setCookie(undefined, "jwt", response.data.login.jwt, {
       maxAge: 60 * 60 * 1, // 1 hour
     });
 
-    Router.push('/home')
+    setIsAuthenticated(true);
+    Router.push("/home");
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn }}>
+    <AuthContext.Provider value={{ isAuthenticated, signIn, checkToken }}>
       {children}
     </AuthContext.Provider>
   );
