@@ -14,20 +14,18 @@ export default function StoreChart({ stores }: Props) {
   var chartData: Array<any> = [];
 
   useEffect(() => {
-    console.log(stores);
+
     stores?.forEach((store: Store) => {
       chartData.push(store.type);
     });
 
-    var teste: Array<any> = [];
+    var uniqueLabels : Array<any> = [];
     chartData.forEach((x) => {
-      if (teste.some((elemnt) => elemnt === x)) {
+      if (uniqueLabels.some((elemnt) => elemnt === x)) {
       } else {
-        teste.push(x);
-        setLabels(labels => [...labels, x])
-
+        uniqueLabels.push(x);
         let temp = labels;
-        labels.push(x);
+        temp.push(x);
         setLabels(temp);
         
       }
