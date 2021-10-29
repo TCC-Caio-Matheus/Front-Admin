@@ -4,7 +4,7 @@ import { IconType } from "react-icons";
 
 interface Props {
   title: string;
-  value: string;
+  value?: string;
   icon:  React.ReactNode;
 }
 

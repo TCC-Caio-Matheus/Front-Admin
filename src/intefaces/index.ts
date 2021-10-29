@@ -45,3 +45,9 @@ export interface QuestionOption {
   score: number;
   question?: string;
 }
+
+
+export interface Store {
+  type: string;
+  id: string;
+}

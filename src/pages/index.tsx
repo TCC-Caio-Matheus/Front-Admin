@@ -25,7 +25,7 @@ const Login: NextPage = () => {
   return (
     <div className={styles.container}>
       <section className={styles.contentContainer}>
-        <h1>E-diagnostios</h1>
+      
         <div className={styles.fields}>
           {error ? (
             <div className={styles.errorView}>
@@ -49,7 +49,7 @@ const Login: NextPage = () => {
           />
         </div>
         <div className={styles.buttons}>
-          <p>Esqueceu a senha ?</p>
+          
           <Button outline={false} text="ENTRAR" onClick={handleLogin} />
         </div>
       </section>

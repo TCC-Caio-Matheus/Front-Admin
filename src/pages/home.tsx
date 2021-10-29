@@ -19,15 +19,16 @@ import {
   GET_STORES,
   GET_QUIZZES,
 } from "../graphql/queries";
-import { Quiz } from "../intefaces";
+import { Quiz, Store } from "../intefaces";
 import { AuthContext } from "../contexts/AuthContext";
+import StoreChart from "../components/StoreChart";
 
 const Home: NextPage = () => {
   const client = useApolloClient();
   const authContext = useContext(AuthContext);
   const [totalUsers, setTotalUsers] = useState<number>(0);
   const [totalAnwsers, setTotalAnwsers] = useState<number>(0);
-  const [totalStores, setTotalStores] = useState<number>(0);
+  const [stores, setStores] = useState<Array<Store> | undefined>(undefined);
   const [quizzes, setQuizzes] = useState<Array<Quiz> | null>(null);
   const router = useRouter();
 
@@ -54,7 +55,7 @@ const Home: NextPage = () => {
       const response = await client.query({
         query: GET_STORES,
       });
-      setTotalStores(response.data.stores.length);
+      setStores(response.data.stores);
     } catch (error) {}
   };
 
@@ -71,10 +72,11 @@ const Home: NextPage = () => {
     (async function () {
       const response = await authContext.checkToken();
       if (response) {
-        getTotalUsers();
-        getTotalAnwsers();
-        getTotalStores();
-        getQuizzes();
+      await getTotalUsers();
+      await getTotalAnwsers();
+      await getTotalStores();
+      await getQuizzes();
+
       } else {
         router.push("/");
       }
@@ -86,7 +88,7 @@ const Home: NextPage = () => {
       <Header title="E-diagnostico" />
       <div className={styles.container}>
         <section>
-          <div className={styles.content}>
+          <div className={styles.metrics}>
             <div className={styles.titleHeader}>
               <h1>Métricas</h1>
             </div>
@@ -101,12 +103,14 @@ const Home: NextPage = () => {
                 title="Respostas"
                 value={totalAnwsers.toString()}
               />
+
               <MetricCard
                 icon={<IoStorefront className={styles.titleIcon} />}
                 title="Lojas"
-                value={totalStores.toString()}
+                value={stores?.length.toString()}
               />
             </div>
+            {stores != undefined  ? <StoreChart stores={stores}  /> : ''}
           </div>
         </section>
 

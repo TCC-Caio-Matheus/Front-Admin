@@ -32,7 +32,8 @@ export const GET_ANWSERS = gql`
 export const GET_STORES = gql`
   query GetStores {
     stores {
-      id
+      id,
+      type,
     }
   }
 `;
