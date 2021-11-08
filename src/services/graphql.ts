@@ -38,7 +38,7 @@ export function createApolloClient(session?: any | null) { // eslint-disable-lin
   });
 }
 
-export function initializeApollo(initialState = {}, session?: Session | null) { // eslint-disable-line
+export function initializeApollo(initialState = {}, session:any) { // eslint-disable-line
   const apolloClientGlobal = createApolloClient(session);
 
   // if (initialState) {
@@ -51,7 +51,7 @@ export function initializeApollo(initialState = {}, session?: Session | null) { 
   return apolloClientGlobal;
 }
 
-export function useApollo(initialState = {}, session?: Session | null) { // eslint-disable-line
+export function useApollo(initialState = {}, session:any) { // eslint-disable-line
   const store = useMemo(
     () => initializeApollo(initialState, session),
     [initialState, session],
