@@ -8,7 +8,7 @@ import { setContext } from 'apollo-link-context';
 import { parseCookies } from 'nookies';
 import { useMemo } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337/graphql";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://strapi-bakckend-tcc.herokuapp.com/graphql";
 let apolloClient: ApolloClient<NormalizedCacheObject> = null;
 
 export function createApolloClient(session?: any | null) { // eslint-disable-line
