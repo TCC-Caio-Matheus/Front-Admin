@@ -8,11 +8,12 @@ import { setContext } from 'apollo-link-context';
 import { parseCookies } from 'nookies';
 import { useMemo } from 'react';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337/graphql";
 let apolloClient: ApolloClient<NormalizedCacheObject> = null;
 
 export function createApolloClient(session?: any | null) { // eslint-disable-line
   const httpLink = createHttpLink({
-    uri: 'http://localhost:1337/graphql',
+    uri: API_URL,
   });
 
   const authLink = setContext(async (_, { headers }) => {

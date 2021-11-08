@@ -78,14 +78,14 @@ const Home: NextPage = () => {
       await getQuizzes();
 
       } else {
-        router.push("/");
+      router.push("/");
       }
     })();
   }, []);
 
   return (
     <>
-      <Header title="E-diagnostico" />
+      <Header title="Home" />
       <div className={styles.container}>
         <section>
           <div className={styles.metrics}>
@@ -110,7 +110,7 @@ const Home: NextPage = () => {
                 value={stores?.length.toString()}
               />
             </div>
-            {stores != undefined  ? <StoreChart stores={stores}  /> : ''}
+            {stores != undefined ? <StoreChart stores={stores} /> : ""}
           </div>
         </section>
 
@@ -137,6 +137,16 @@ const Home: NextPage = () => {
                   </React.Fragment>
                 );
               })}
+              {quizzes === null || quizzes.length === 0 ? (
+                <>
+                  <div className={styles.noData}>
+                    <span>Nenhum quiz cadastrado</span>
+                    <img alt="Empty box" src="/images/empty.svg" />
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </section>

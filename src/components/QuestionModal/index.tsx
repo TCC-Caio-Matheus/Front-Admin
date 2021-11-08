@@ -239,14 +239,6 @@ export default function QuestionModal({
                 setQuestion({ ...question, title: value } as Question)
               }
             />
-            <Input
-              value={question?.score}
-              text="Nota pergunta"
-              type="number"
-              onChange={(value) =>
-                setQuestion({ ...question, score: parseInt(value) } as Question)
-              }
-            />
             <QuestionType value={question?.type} onChange={handleSelect} />
             {awnserBasedOnType()}
 

@@ -14,7 +14,6 @@ export default function StoreChart({ stores }: Props) {
   var chartData: Array<any> = [];
 
   useEffect(() => {
-
     stores?.forEach((store: Store) => {
       chartData.push(store.type);
     });
