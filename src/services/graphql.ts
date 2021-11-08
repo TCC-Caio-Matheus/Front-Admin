@@ -9,7 +9,7 @@ import { parseCookies } from 'nookies';
 import { useMemo } from 'react';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://strapi-bakckend-tcc.herokuapp.com/graphql";
-let apolloClient: ApolloClient<NormalizedCacheObject> = null;
+let apolloClient: ApolloClient<NormalizedCacheObject> | null = null;
 
 export function createApolloClient(session?: any | null) { // eslint-disable-line
   const httpLink = createHttpLink({
