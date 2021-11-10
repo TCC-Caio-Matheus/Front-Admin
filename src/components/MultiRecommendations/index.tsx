@@ -24,8 +24,9 @@ export default function MultiRecommendations({ getValues }: Props) {
 
   const updateRangeInput = (values: Array<number>, index: number) => {
     let temp = recommendations;
-    temp[index].range_max = values[0];
-    temp[index].range_min = values[1];
+    temp[index].range_min = values[0];
+    temp[index].range_max = values[1];
+    console.log(values);
     setRecommendations(temp);
     getValues(recommendations);
   };
