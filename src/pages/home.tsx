@@ -46,7 +46,7 @@ const Home: NextPage = () => {
       const response = await client.query({
         query: GET_ANWSERS,
       });
-      setTotalAnwsers(response.data.anwsers.length);
+      setTotalAnwsers(response.data.answers.length);
     } catch (error) {}
   };
 
